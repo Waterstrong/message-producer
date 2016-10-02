@@ -1,0 +1,9 @@
+server:
+  port: 8081
+  context-path: /producer
+
+message:
+  queue:
+    host: 192.168.99.100
+  exchange:
+    name: DEV.MESSAGE.TOPIC.MAIN
