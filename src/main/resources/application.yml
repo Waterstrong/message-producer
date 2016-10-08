@@ -3,9 +3,10 @@ server:
   context-path: /producer
 
 message:
-  queue:
+  topic:
     host: 192.168.56.105
+    name: DEV.MESSAGE.TOPIC.MAIN
     username: guest
     password: guest
-  exchange:
-    name: DEV.MESSAGE.TOPIC.MAIN
+    recoveryInterval: 5000
+    connectionTimeout: 10000

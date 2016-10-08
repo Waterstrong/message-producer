@@ -1,6 +1,5 @@
 package ws.message.configuration;
 
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.connection.AbstractConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,37 +10,37 @@ import com.rabbitmq.client.ConnectionFactory;
 @Configuration
 public class RabbitMqConfiguration {
 
-    @Value("${message.queue.host}")
-    private String queueHost;
+    @Value("${message.topic.host}")
+    private String topicHost;
 
-    @Value("${message.queue.username}")
+    @Value("${message.topic.username}")
     private String username;
 
-    @Value("${message.queue.password}")
+    @Value("${message.topic.password}")
     private String password;
 
-    @Value("${message.queue.port:5672}")
+    @Value("${message.topic.port:5672}")
     private int port;
 
-    @Value("${message.queue.virtualHost:/}")
+    @Value("${message.topic.virtualHost:/}")
     private String virtualHost;
 
-    @Value("${message.exchange.name}")
-    private String exchangeName;
+    @Value("${message.topic.connectionTimeout}")
+    private int connectionTimeout;
 
-    @Bean
-    public TopicExchange exchange() {
-        return new TopicExchange(exchangeName);
-    }
+    @Value("${message.topic.recoveryInterval}")
+    private long recoveryInterval;
 
     @Bean
     public AbstractConnectionFactory connectionFactory() {
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(queueHost);
+        factory.setHost(topicHost);
         factory.setUsername(username);
         factory.setPassword(password);
         factory.setPort(port);
         factory.setVirtualHost(virtualHost);
+        factory.setConnectionTimeout(connectionTimeout);
+        factory.setNetworkRecoveryInterval(recoveryInterval);
         return new CachingConnectionFactory(factory);
     }
 }
