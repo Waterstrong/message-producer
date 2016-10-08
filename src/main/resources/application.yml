@@ -4,6 +4,8 @@ server:
 
 message:
   queue:
-    host: 192.168.99.100
+    host: 192.168.56.105
+    username: guest
+    password: guest
   exchange:
     name: DEV.MESSAGE.TOPIC.MAIN

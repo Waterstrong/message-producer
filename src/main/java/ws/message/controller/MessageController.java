@@ -8,13 +8,13 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import java.io.IOException;
 
 import org.apache.log4j.Logger;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.rabbitmq.client.Channel;
 
 @RestController
 public class MessageController {
@@ -24,12 +24,12 @@ public class MessageController {
     private String exchangeName;
 
     @Autowired
-    private Channel topicChannel;
+    private RabbitTemplate rabbitTemplate;
 
     @RequestMapping(method = POST, value = "/messages")
     public ResponseEntity<?> sendMessage(@RequestBody String message) throws IOException {
-        LOGGER.info(String.format("@%s Sent message: %s", now(), message));
-        topicChannel.basicPublish(exchangeName, "", null, message.getBytes());
+        LOGGER.info(String.format("@%s Send message: %s", now(), message));
+        rabbitTemplate.convertAndSend(exchangeName, "", message);
         return new ResponseEntity<>(message, CREATED);
     }
 }

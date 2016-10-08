@@ -1,32 +1,47 @@
 package ws.message.configuration;
 
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
+import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.rabbit.connection.AbstractConnectionFactory;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 
 @Configuration
 public class RabbitMqConfiguration {
-    private static final String TOPIC = "topic";
 
     @Value("${message.queue.host}")
     private String queueHost;
+
+    @Value("${message.queue.username}")
+    private String username;
+
+    @Value("${message.queue.password}")
+    private String password;
+
+    @Value("${message.queue.port:5672}")
+    private int port;
+
+    @Value("${message.queue.virtualHost:/}")
+    private String virtualHost;
 
     @Value("${message.exchange.name}")
     private String exchangeName;
 
     @Bean
-    public Channel topicChannel() throws IOException, TimeoutException {
+    public TopicExchange exchange() {
+        return new TopicExchange(exchangeName);
+    }
+
+    @Bean
+    public AbstractConnectionFactory connectionFactory() {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(queueHost);
-        Connection connection = factory.newConnection();
-        Channel channel = connection.createChannel();
-        channel.exchangeDeclare(exchangeName, TOPIC, true, false, false, null);
-        return channel;
+        factory.setUsername(username);
+        factory.setPassword(password);
+        factory.setPort(port);
+        factory.setVirtualHost(virtualHost);
+        return new CachingConnectionFactory(factory);
     }
 }
