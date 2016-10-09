@@ -10,25 +10,25 @@ import com.rabbitmq.client.ConnectionFactory;
 @Configuration
 public class RabbitMqConfiguration {
 
-    @Value("${message.topic.host}")
+    @Value("${rabbitmq.host}")
     private String topicHost;
 
-    @Value("${message.topic.username}")
+    @Value("${rabbitmq.username}")
     private String username;
 
-    @Value("${message.topic.password}")
+    @Value("${rabbitmq.password}")
     private String password;
 
-    @Value("${message.topic.port:5672}")
+    @Value("${rabbitmq.port:5672}")
     private int port;
 
-    @Value("${message.topic.virtualHost:/}")
+    @Value("${rabbitmq.virtualHost:/}")
     private String virtualHost;
 
-    @Value("${message.topic.connectionTimeout}")
+    @Value("${rabbitmq.connectionTimeout}")
     private int connectionTimeout;
 
-    @Value("${message.topic.recoveryInterval}")
+    @Value("${rabbitmq.recoveryInterval}")
     private long recoveryInterval;
 
     @Bean

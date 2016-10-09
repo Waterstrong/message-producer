@@ -2,11 +2,11 @@ server:
   port: 8081
   context-path: /producer
 
-message:
-  topic:
-    host: 192.168.56.105
-    name: DEV.MESSAGE.TOPIC.MAIN
-    username: guest
-    password: guest
-    recoveryInterval: 5000
-    connectionTimeout: 10000
+rabbitmq:
+  host: 192.168.56.105
+  username: guest
+  password: guest
+  topicName: DEV.MESSAGE.TOPIC.MAIN
+  recoveryInterval: 5000
+  connectionTimeout: 10000
+

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
     private final static Logger LOGGER = getLogger(MessageController.class);
 
-    @Value("${message.topic.name}")
+    @Value("${rabbitmq.topicName}")
     private String topicName;
 
     @Autowired
